@@ -1,0 +1,64 @@
+#define LedPin_Red 9
+#define LedPin_Blue 6
+#define LedPin_Yellow 10
+#define LedPin_Green 11
+
+#define VrX A3
+#define VrY A2
+#define LEDS_NUM 4
+int Leds[4] = {LedPin_Red, LedPin_Blue, LedPin_Yellow, LedPin_Green};
+int toShow[8]={0,1,2,3,0,3,0,2};
+// the setup function runs once when you press reset or power the board
+void setup() {
+  //  pinMode(LedPin_Red, OUTPUT);
+  //  pinMode(LedPin_Blue, OUTPUT);
+  //  pinMode(LedPin_Yellow, OUTPUT);
+  //  pinMode(LedPin_Green, OUTPUT);
+
+  randomSeed(analogRead(A1));
+  Serial.begin(9600);
+  for (int k = 0; k < LEDS_NUM; k++) {
+    pinMode(Leds[k], OUTPUT);
+  }
+}
+int LedIndex=0;
+int currentLed=0;
+void loop() {
+
+    currentLed=toShow[LedIndex];
+    digitalWrite(Leds[currentLed],HIGH);
+    delay(3000);
+    digitalWrite(Leds[toShow[LedIndex]],LOW);
+    LedIndex=(LedIndex+1) % 8;
+    
+  int ledValX;
+  int x_val = analogRead(VrX);
+  if (x_val > 550) {
+    ledValX = map(x_val, 550, 1023, 0, 255);
+    analogWrite(LedPin_Red, ledValX);
+    //  }else{
+    //   digitalWrite(LedPin_Red,LOW);
+  }
+//
+//  if (x_val < 450) {
+//    ledValX = map(x_val, 0, 450, 255, 0);
+//    analogWrite(LedPin_Green, ledValX);
+//    //  }else{
+//    //   digitalWrite(LedPin_Green,LOW);
+//  }
+//
+//  int ledValY;
+//  int y_val = analogRead(VrY);
+//  if (y_val > 550) {
+//    ledValY = map(y_val, 550, 1023, 0, 255);
+//    analogWrite(LedPin_Yellow, ledValY);
+//    //  }else{
+//    //   digitalWrite(LedPin_Yellow,LOW);
+//  }
+//  if (y_val < 450) {
+//    ledValY = map(y_val, 0, 450, 255, 0);
+//    analogWrite(LedPin_Blue, ledValY);
+//    //  }else{
+//    //   digitalWrite(LedPin_Blue,LOW);
+//  }
+}
